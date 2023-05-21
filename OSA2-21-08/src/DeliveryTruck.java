@@ -10,7 +10,6 @@ public class DeliveryTruck extends Thread {
         this.storageCapacity = storageCapacity;
         this.deliveryTime = deliveryTime;
         this.storage = storage;
-        System.out.println(uid);
     }
 
     private void printLog(char c) {
@@ -34,6 +33,7 @@ public class DeliveryTruck extends Thread {
 
     @Override
     public void run() {
+        System.out.println("[delivery truck " + uid + "] Started.");
         while (true) {
             // check storage
             int storageLevel = storage.collectStock(storageCapacity);

@@ -7,11 +7,11 @@ public class Main {
         Storage storage1 = new Storage(1000);
 
         ProductionLine productionLine1 =
-                new ProductionLine(400, 200, 200, storage1);
+                new ProductionLine(200, 200, 200, storage1);
         ProductionLine productionLine2 =
-                new ProductionLine(400, 200, 200, storage1);
+                new ProductionLine(200, 200, 200, storage1);
         ProductionLine productionLine3 =
-                new ProductionLine(400, 200, 200, storage1);
+                new ProductionLine(100, 200, 200, storage1);
 
         DeliveryTruck deliveryTruck1 =
                 new DeliveryTruck(100, 50, storage1);

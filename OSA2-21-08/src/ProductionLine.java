@@ -12,7 +12,6 @@ public class ProductionLine extends Thread {
         this.productionTime = productionTime;
         this.maintenanceTime = maintenanceTime;
         this.storage = storage;
-        System.out.println(uid);
     }
 
     private void printLog(char c) {
@@ -40,7 +39,7 @@ public class ProductionLine extends Thread {
 
     @Override
     public void run() {
-        System.out.println("executed run for "+ uid);
+        System.out.println("[PRODUCTION LINE " + uid + "] Started.");
         while (true) {
             // produce
             printLog('p');
@@ -50,15 +49,13 @@ public class ProductionLine extends Thread {
                 throw new RuntimeException(e);
             }
 
-            // store
-            while (storage.storeStock(productionCapacity) == false) {
+            //store
+            if (storage.storeStock(productionCapacity) == false) {
                 printLog('f');
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                while (storage.storeStock(productionCapacity) == false) {
+                    assert true;
                 }
-            };
+            }
             printLog('s');
 
             // maintenance
