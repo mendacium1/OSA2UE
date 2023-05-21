@@ -31,12 +31,12 @@ public class Main {
 
         // Create the production plant using the previously created production lines and delivery trucks
         // This variable initialization can not be done beforehand as the required parameters (production lines and
-        // delivery trucks have had to be initialized)
-        ProductionPlant productionPlant1 = new ProductionPlant(storageOne,
+        // delivery trucks have had to be initialized
+        ProductionPlant productionPlantOne = new ProductionPlant(storageOne,
                 new ArrayList<>(Arrays.asList(productionLineOne, productionLineTwo, productionLineThree)),
                 new ArrayList<>(Arrays.asList(deliveryTruckOne, deliveryTruckTwo, deliveryTruckThree)));
 
         // Start the production process
-        productionPlant1.startProduction();
+        productionPlantOne.startProduction();
     }
 }
