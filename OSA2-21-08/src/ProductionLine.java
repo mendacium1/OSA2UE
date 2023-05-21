@@ -15,13 +15,35 @@ public class ProductionLine extends Thread {
         System.out.println(uid);
     }
 
+    private void printLog(char c) {
+        switch (c) {
+            case 'p':
+                System.out.println("[PRODUCTION LINE " + uid + "] Producing " + productionCapacity + " items in " +
+                        productionTime + " seconds.");
+                break;
+            case 'f':
+                System.out.println("[PRODUCTION LINE " + uid + "] Not enough free stock (current stock level: " +
+                        storage.getStock() + ", items to store: " + productionCapacity + "). Waiting...");
+                break;
+            case 's':
+                System.out.println("[PRODUCTION LINE " + uid + "] Storing " + productionCapacity + " items." +
+                        " New sock level " + storage.getStock() + ".");
+                break;
+            case 'm':
+                System.out.println("[PRODUCTION LINE " + uid + "] Doing maintenance for " + maintenanceTime +
+                        " seconds.");
+                break;
+            default:
+                System.out.println("invalid log request");
+        }
+    }
 
     @Override
     public void run() {
+        System.out.println("executed run for "+ uid);
         while (true) {
             // produce
-            System.out.println("[" + uid + "] Producing " + productionCapacity + " items in " + productionTime +
-                    " seconds.");
+            printLog('p');
             try {
                 Thread.sleep(productionTime);
             } catch (InterruptedException e) {
@@ -30,19 +52,17 @@ public class ProductionLine extends Thread {
 
             // store
             while (storage.storeStock(productionCapacity) == false) {
-                System.out.println("[" + uid + "] Not enought stock available (current stock level: " +
-                        storage.getStock() + ", items to deliver: " + productionCapacity + "). Wating...");
+                printLog('f');
                 try {
                     Thread.sleep(50);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             };
-            System.out.println("[" + uid + "] Storing " + productionCapacity + " items. New stock level " +
-                    storage.getStock());
+            printLog('s');
 
             // maintenance
-            System.out.println("[" + uid + "] Doing maintenance for " + maintenanceTime + " seconds.");
+            printLog('m');
             try {
                 Thread.sleep(maintenanceTime);
             } catch (InterruptedException e) {

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProductionPlant {
 
@@ -14,12 +15,20 @@ public class ProductionPlant {
     }
 
     public void startProduction() throws InterruptedException {
+        List<Thread> threads = new ArrayList<>();
+
         for (ProductionLine p : productionLines) {
-            p.run();
+            Thread thread = new Thread(p::run);
+            threads.add(thread);
+            thread.start();
         }
+
         for (DeliveryTruck d : deliveryTrucks) {
-            d.run();
+            Thread thread = new Thread(d::run);
+            threads.add(thread);
+            thread.start();
         }
+
 
     }
 }

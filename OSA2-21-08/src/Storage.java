@@ -10,14 +10,14 @@ public class Storage extends Thread{
     public int getStock() {
         return stock;
     }
-    public boolean storeStock(int amount) {
+    public synchronized boolean storeStock(int amount) {
         if (stock + amount <= storageCapacity) {
             stock += amount;
             return true;
         }
         return false;
     }
-    public int collectStock(int amount) {
+    public synchronized int collectStock(int amount) {
         if (amount <= stock) {
             stock -= amount;
             return stock;

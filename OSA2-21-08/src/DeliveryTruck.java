@@ -13,23 +13,41 @@ public class DeliveryTruck extends Thread {
         System.out.println(uid);
     }
 
+    private void printLog(char c) {
+        switch (c) {
+            case 'p':
+                System.out.println("[delivery truck " + uid + "] Picking up " + storageCapacity +
+                        " items. New stock level " + storage.getStock() + ".");
+                break;
+            case 'e':
+                System.out.println("[delivery truck " + uid + "] Not enough stock available (current sock level: " +
+                        storage.getStock() + ", items to deliver: " + storageCapacity + "). Waiting...");
+                break;
+            case 'd':
+                System.out.println("[delivery truck " + uid + "] Delivering " + storageCapacity + " items in " +
+                        deliveryTime + " seconds.");
+                break;
+            default:
+                System.out.println("invalid log request");
+        }
+    }
+
     @Override
     public void run() {
         while (true) {
             // check storage
             int storageLevel = storage.collectStock(storageCapacity);
             if (storageLevel > 0) {
-                System.out.println("[" + uid + "] Picking up " + storageCapacity + " items. New stock level " +
-                        storageLevel);
-
+                printLog('p');
                 // deliver
-                System.out.println("[" + uid + "] Delivering " + storageCapacity + " items in " + deliveryTime +
-                        "seconds");
+                printLog('d');
                 try {
                     Thread.sleep(deliveryTime);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
+            } else {
+
             }
         }
     }
