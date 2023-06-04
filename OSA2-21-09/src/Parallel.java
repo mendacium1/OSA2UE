@@ -21,6 +21,7 @@ class Parallel extends CompoundCircuit {
      * Returns the total resistance of the parallel circuit.
      * The total resistance is calculated using the formula: 1 / (1/R1 + 1/R2 + ... + 1/Rn),
      * where R1, R2, ..., Rn are the resistances of the individual circuits in parallel.
+     * Note that this function only takes in 2 Circuits, but they can of course be a parallel circuit again.
      *
      * @return The total resistance of the parallel circuit.
      */

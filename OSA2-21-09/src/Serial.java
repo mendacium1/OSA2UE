@@ -1,5 +1,5 @@
 /**
- * Represents a series circuit, which combines multiple circuits in series.
+ * Represents a serial circuit, which combines multiple circuits in series.
  *
  * @author Jakob Mayr
  */
