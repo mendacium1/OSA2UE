@@ -1,0 +1,11 @@
+grant {
+	permission java.util.PropertyPermission "os.name", "read";
+	permission java.util.PropertyPermission "user.home", "read";
+	permission java.util.PropertyPermission "java.version", "read";
+};
+
+grant {
+	permission java.io.FilePermission "${user.dir}${/}app${/}work${/}*",  "read, write, delete";
+	permission java.io.FilePermission "${user.dir}${/}app${/}config${/}*",  "read";
+	permission java.io.FilePermission "${user.dir}${/}app${/}logs${/}*",  "write";
+};

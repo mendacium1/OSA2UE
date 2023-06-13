@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Main-Class: good.GoodApp
+Class-Path: .
+
+Name: util/Util.class
+SHA-256-Digest: mgoZQMwtg4lxeyCyzfOaotOHD41cI/envB6idghdXIo=
+
+Name: bad/BadApp.class
+SHA-256-Digest: MNkR/dQn5e0nCecmdcODSWy0IXJJxXJ/kvOebM6PWYg=
+
+Name: good/GoodApp.class
+SHA-256-Digest: tCVbobk3IacSp1hK2rPSG4jMbEa7sfXGRlMscPaK/y8=
+

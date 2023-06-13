@@ -1,0 +1,25 @@
+Êþº¾   = N   good/GoodApp   java/lang/Object <init> ()V Code
+  	   LineNumberTable LocalVariableTable this Lgood/GoodApp; main ([Ljava/lang/String;)V 
+Exceptions   java/io/IOException
+     java/lang/System   getSecurityManager ()Ljava/lang/SecurityManager;	     err Ljava/io/PrintStream;  "Security manager is not activated!
+   "  ! java/io/PrintStream # $  println (Ljava/lang/String;)V  & 	util/Util
+ % 	  ) java/lang/String +  os.name - 	user.home / java.version
+ % 1 2  readSystemProperties 4 app/work/README.md
+ % 6 7 $ readFile 9 appsdfsfsfdsfxdfsfsfd/work/output.txt
+ % ; < $ createOrAppendFile
+ % > ? $ 
+deleteFile A app/config/config.properties C app/logs/app.log
+ % E F $ 
+writeToFile args [Ljava/lang/String; util 
+Lutil/Util; 
+StackMapTable 
+SourceFile GoodApp.java !                /     *· ±    
+         
+         
+   	              ­     L¸ Ç 
+² ¶ » %Y· 'L+½ (Y*SY,SY.S¶ 0+3¶ 5+8¶ :+8¶ =+@¶ 5+B¶ D±    
+   * 
+   
+  
+     -  3  9  ?  E  K  
+       L G H    6 I J  K      L    M

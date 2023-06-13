@@ -1,0 +1,15 @@
+Signature-Version: 1.0
+Created-By: 17.0.2 (Eclipse Adoptium)
+SHA-256-Digest-Manifest: e1mvI9t30pz2DFdvFkW7wTnLiLgk63Or2oIKoFveaek=
+SHA-256-Digest-Manifest-Main-Attributes: yIPa4kwzltDRD4ImH3WXn513ZiDnf53
+ K4Tzg3ovyvYY=
+
+Name: util/Util.class
+SHA-256-Digest: Xzgozw+hsEgqhTKIIw2cA0TDjEolhqn01hbmY4CvUk4=
+
+Name: bad/BadApp.class
+SHA-256-Digest: x2FGwFD63UOJcmPXqxDMXychVCjkwtyTSKfOn5nJOdI=
+
+Name: good/GoodApp.class
+SHA-256-Digest: MYIkobxfSjbVo5R8QA1vphR92KrfvIMyTP4Xqtd+LdE=
+
