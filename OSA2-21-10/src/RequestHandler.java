@@ -3,20 +3,34 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Map;
-
+/**
+ * The RequestHandler class handles client requests received by the NameServer.
+ * It processes the requests and sends back the appropriate response.
+ * @author Jakob Mayr
+ */
 public class RequestHandler implements Runnable {
     private final Socket clientSocket;
     private final Map<String, String> nameToAddress;
     private final NameServer nameServer;
     private final String infoTag = "[I]: ";
-    private final String warningTag = "[W]: ";
     private final String errorTag = "[E]: ";
+
+    /**
+     * Constructs a RequestHandler object with the specified client socket, name-to-address map, and NameServer instance.
+     * @param clientSocket The client socket representing the client connection.
+     * @param nameToAddress The map storing the name-to-address mappings.
+     * @param nameServer The NameServer instance.
+     */
     public RequestHandler(Socket clientSocket, Map<String, String> nameToAddress, NameServer nameServer) {
         this.clientSocket = clientSocket;
         this.nameToAddress = nameToAddress;
         this.nameServer = nameServer;
     }
 
+    /**
+     * Handles the client request by reading the request, processing it, and sending the response back to the client.
+     * The method also closes the client socket after processing the request.
+     */
     @Override
     public void run() {
         try (InputStream input = clientSocket.getInputStream();
@@ -40,6 +54,12 @@ public class RequestHandler implements Runnable {
         }
     }
 
+    /**
+     * Processes the client request by parsing the command and arguments, and performing the corresponding operation.
+     * Returns the response to be sent back to the client.
+     * @param request The client request string.
+     * @return The response string.
+     */
     private String processRequest(String request) {
         String[] parts = request.trim().split(" ");
         String command = parts[0];
