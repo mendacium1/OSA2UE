@@ -17,13 +17,25 @@ public class Main {
             e.printStackTrace();
         }
 
+        // The following section could also be simulated with netcat
         // Simulate client requests for testing
-        sendRequest("PUT name John", port);
-        sendRequest("PUT age 25", port);
-        sendRequest("GET name", port);
-        sendRequest("GET age", port);
-        sendRequest("DEL age", port);
-        sendRequest("GET age", port);
+        // OK tests
+        sendRequest("PUT google.com 8.8.8.8", port);
+        sendRequest("PUT github.com 140.82.121.3", port);
+        sendRequest("GET google.com", port);
+        sendRequest("GET github.com", port);
+        sendRequest("DEL github.com", port);
+
+        // Not Found tests
+        sendRequest("GET github.com", port);
+        sendRequest("GET microsoft.com", port);
+
+        // Bad Request tests
+        sendRequest("GIVE google.com", port);
+        sendRequest("PUT rofl", port);
+        sendRequest("GET 8.8.8.8", port);
+
+        // Stopping server
         sendRequest("STOP", port);
 
         // Wait for the server to stop
@@ -36,7 +48,7 @@ public class Main {
 
 
     private static void sendRequest(String request, int port) {
-        System.out.println("Sending request: " + request);
+        System.out.println("\u001B[34mSending request: " + request + "\u001B[0m");
         try (Socket socket = new Socket("localhost", port);
              OutputStream output = socket.getOutputStream();
              InputStream input = socket.getInputStream()) {
@@ -46,7 +58,7 @@ public class Main {
                 int bytesRead = input.read(buffer);
                 if (bytesRead > 0) {
                     String response = new String(buffer, 0, bytesRead);
-                    System.out.println("Response: " + response);
+                    System.out.println("\u001B[34mResponse: " + response + "\u001B[0m");
              }
         } catch (IOException e) {
             e.printStackTrace();

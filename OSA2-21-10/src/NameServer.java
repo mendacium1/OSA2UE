@@ -6,17 +6,19 @@ import java.util.Map;
 
 public class NameServer {
     private final int port;
-    private final Map<String, String> keyValueStore;
+    private final Map<String, String> nameToAddress;
     private ServerSocket serverSocket;
     private boolean running;
-
+    private final String infoTag = "[I]: ";
+    private final String warningTag = "[W]: ";
+    private final String errorTag = "[E]: ";
     public NameServer(int port) {
         if (port < 1024 || port > 65535) {
             throw new IllegalArgumentException("Invalid port number. Port must be between 1024 and 65535.");
         }
 
         this.port = port;
-        this.keyValueStore = new HashMap<>();
+        this.nameToAddress = new HashMap<>();
         this.serverSocket = null;
         this.running = false;
     }
@@ -25,18 +27,22 @@ public class NameServer {
         try {
             serverSocket = new ServerSocket(port);
             running = true;
-            System.out.println("NameServer started on port " + port);
+            System.out.println(infoTag + "NameServer started on port " + port);
 
             while (running) {
-                Socket clientSocket = serverSocket.accept();
-                System.out.println("New client connected: " + clientSocket.getInetAddress());
-
-                // Handle client request in a separate thread
-                Thread requestHandlerThread = new Thread(new RequestHandler(clientSocket, keyValueStore, this));
-                requestHandlerThread.start();
+                try {
+                    Socket clientSocket = serverSocket.accept();
+                    System.out.println(infoTag + "New client connected: " + clientSocket.getInetAddress());
+                    // Handle client request in a separate thread
+                    Thread requestHandlerThread = new Thread(new RequestHandler(clientSocket, nameToAddress, this));
+                    requestHandlerThread.start();
+                } catch (IOException e) {
+                    System.out.println(errorTag + "Error occurred while handling Client connection: " + e.getMessage());
+                }
             }
+
         } catch (IOException e) {
-            System.err.println("Error occurred while starting NameServer: " + e.getMessage());
+            System.out.println(errorTag + "Error occurred while starting NameServer: " + e.getMessage());
         } finally {
             stop();
         }
@@ -47,10 +53,10 @@ public class NameServer {
             running = false;
             if (serverSocket != null) {
                 serverSocket.close();
-                System.out.println("NameServer stopped.");
+                System.out.println(infoTag + "NameServer stopped.");
             }
         } catch (IOException e) {
-            System.err.println("Error occurred while stopping NameServer: " + e.getMessage());
+            System.out.println(errorTag + "Error occurred while stopping NameServer: " + e.getMessage());
         }
     }
 }

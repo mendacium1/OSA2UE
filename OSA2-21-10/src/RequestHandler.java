@@ -6,12 +6,14 @@ import java.util.Map;
 
 public class RequestHandler implements Runnable {
     private final Socket clientSocket;
-    private final Map<String, String> keyValueStore;
+    private final Map<String, String> nameToAddress;
     private final NameServer nameServer;
-
-    public RequestHandler(Socket clientSocket, Map<String, String> keyValueStore, NameServer nameServer) {
+    private final String infoTag = "[I]: ";
+    private final String warningTag = "[W]: ";
+    private final String errorTag = "[E]: ";
+    public RequestHandler(Socket clientSocket, Map<String, String> nameToAddress, NameServer nameServer) {
         this.clientSocket = clientSocket;
-        this.keyValueStore = keyValueStore;
+        this.nameToAddress = nameToAddress;
         this.nameServer = nameServer;
     }
 
@@ -28,12 +30,12 @@ public class RequestHandler implements Runnable {
                 output.write(response.getBytes());
             }
         } catch (IOException e) {
-            System.err.println("Error occurred while handling client request: " + e.getMessage());
+            System.out.println("Error occurred while handling client request: " + e.getMessage());
         } finally {
             try {
                 clientSocket.close();
             } catch (IOException e) {
-                System.err.println("Error occurred while closing client socket: " + e.getMessage());
+                System.out.println("Error occurred while closing client socket: " + e.getMessage());
             }
         }
     }
@@ -45,39 +47,54 @@ public class RequestHandler implements Runnable {
         switch (command) {
             case "PUT":
                 if (parts.length < 3) {
+                    System.out.println(errorTag + "404 Bad request: " + request);
                     return "ERROR\n" + "400 Bad Request\n" + command + "\n";
                 }
                 String key = parts[1];
                 String value = parts[2];
-                synchronized (keyValueStore) {
-                    keyValueStore.put(key, value);
+                synchronized (nameToAddress) {
+                    nameToAddress.put(key, value);
                 }
+                System.out.println(infoTag + "200 OK: " + request);
                 return "SUCCESS\n" + "Entry stored:\n" + value + "\n";
             case "GET":
                 if (parts.length < 2) {
-                    return "ERROR\n" + "400 Bad Request\n" + command + "\n";
+                    System.out.println(errorTag + "404 Bad request: " + request);
+                    return "ERROR\n" + "400 Bad Request\n";
                 }
                 key = parts[1];
-                synchronized (keyValueStore) {
-                    value = keyValueStore.get(key);
+                synchronized (nameToAddress) {
+                    value = nameToAddress.get(key);
                 }
-                return value != null ? "SUCCESS\n" + "Entry:\n" + value + "\n":
-                        "ERROR\n" + "404 Not Found\n" + command + "\n";
+                if (value != null) {
+                    System.out.println(infoTag + "200 OK: " + request);
+                    return "SUCCESS\n" + "Entry:\n" + value + "\n";
+                } else {
+                    System.out.println(errorTag + "404 Not Found: " + request);
+                    return "ERROR\n" + "404 Not Found\n";
+                }
             case "DEL":
                 if (parts.length < 2) {
-                    return "ERROR\n" + "400 Bad Request\n" + command + "\n";
+                    System.out.println(errorTag + "404 Bad request: " + request);
+                    return "ERROR\n" + "400 Bad Request\n";
                 }
                 key = parts[1];
-                synchronized (keyValueStore) {
-                    value = keyValueStore.remove(key);
+                synchronized (nameToAddress) {
+                    value = nameToAddress.remove(key);
                 }
-                return value != null ? "SUCCESS\n" + "Entry deleted:\n" + value + "\n":
-                        "ERROR\n" + "404 Not Found\n" + command + "\n";
+                if (value != null) {
+                    System.out.println(infoTag + "200 OK: " + request);
+                    return "SUCCESS\n" + "Entry deleted:\n" + value + "\n";
+                } else {
+                    System.out.println(errorTag + "404 Bad request: " + request);
+                    return "ERROR\n" + "404 Not Found\n";
+                }
             case "STOP":
                 nameServer.stop();
                 return "SUCCESS\n" + "Server stopped\n";
             default:
-                return "ERROR\n" + "400 Bad Request\n" + command + "\n";
+                System.out.println(errorTag + "404 Bad request: " + request);
+                return "ERROR\n" + "400 Bad Request\n";
         }
     }
 }
